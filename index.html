@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+
+            .links line {
+                stroke: #999;
+                stroke-opacity: 0.6;
+            }
+
+            .nodes circle {
+                stroke: #fff;
+                stroke-width: 1.5px;
+            }
+
+            text {
+                font-family: sans-serif;
+                font-size: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <svg width="600" height="600"></svg>
+            </div>
+        </div>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script>
+
+            var svg = d3.select("svg"),
+                    width = +svg.attr("width"),
+                    height = +svg.attr("height");
+
+            var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+            var simulation = d3.forceSimulation()
+                    .force("collide", d3.forceCollide().radius(function (d) {
+                        return d.r + 0.5;
+                    }).iterations(2))
+                    .force("link", d3.forceLink().distance(100).id(function (d) {
+                        return d.id;
+                    }))
+                    .force("charge", d3.forceManyBody().strength(-200).distanceMax(2000))
+                    .force("center", d3.forceCenter(width / 2, height / 2));
+
+            d3.json("data1.json", function (error, graph) {
+                if (error)
+                    throw error;
+
+                var link = svg.append("g")
+                        .attr("class", "links")
+                        .attr("r", 100)
+                        .selectAll("line")
+                        .data(graph.links)
+                        .enter().append("line")
+                        .attr("stroke-width", function (d) {
+                            return Math.sqrt(d.value);
+                        });
+
+                var node = svg.append("g")
+                        .attr("class", "nodes")
+                        .selectAll("g")
+                        .attr("r", 30)
+                        .data(graph.nodes)
+                        .enter().append("g")
+
+                var circles = node.append("circle")
+                        .attr("r", 30)
+                        .attr("fill", function (d) {
+                            return color(d.group);
+                        })
+                        .on("click", function (d) {
+                            jQuery("#modalContent").find(".modal-body").html(d.id);
+                            jQuery("#modalContent").modal("show");
+                        })
+                        .call(d3.drag()
+                                .on("start", dragstarted)
+                                .on("drag", dragged)
+                                .on("end", dragended));
+
+                var lables = node.append("text")
+                        .text(function (d) {
+                            return d.id;
+                        })
+                        .attr('x', 6)
+                        .attr('y', 3);
+
+                node.append("title")
+                        .text(function (d) {
+                            return d.id;
+                        });
+
+                simulation
+                        .nodes(graph.nodes)
+                        .on("tick", ticked);
+
+                simulation.force("link")
+                        .links(graph.links);
+
+                function ticked() {
+                    link
+                            .attr("x1", function (d) {
+                                return d.source.x;
+                            })
+                            .attr("y1", function (d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function (d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function (d) {
+                                return d.target.y;
+                            });
+
+                    node
+                            .attr("transform", function (d) {
+                                return "translate(" + d.x + "," + d.y + ")";
+                            })
+                }
+            });
+
+            function dragstarted(d) {
+                if (!d3.event.active)
+                    simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(d) {
+                d.fx = d3.event.x;
+                d.fy = d3.event.y;
+            }
+
+            function dragended(d) {
+                if (!d3.event.active)
+                    simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+        </script>
+        <div class="modal" id="modalContent" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
