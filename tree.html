@@ -42,31 +42,31 @@
 
             jQuery("#changeView").on("change", function () {
                 var selectedValue = $("#changeView option:selected").val();
-                window.location.href = window.location.href + "/" + selectedValue;
+                window.location.href = "https://lovegupta0212.github.io/d3js.github.io/" + selectedValue;
             });
 
             var treeData = [
                 {
-                    "name": "Top Level",
+                    "name": "Main Department",
                     "parent": "null",
                     "children": [
                         {
-                            "name": "Level 2: A",
-                            "parent": "Top Level",
+                            "name": "Department 1: A",
+                            "parent": "Main Department",
                             "children": [
                                 {
-                                    "name": "Son of A",
-                                    "parent": "Level 2: A"
+                                    "name": "Department ABC",
+                                    "parent": "Department 1: A"
                                 },
                                 {
-                                    "name": "Daughter of A",
-                                    "parent": "Level 2: A"
+                                    "name": "Department DEF",
+                                    "parent": "Department 1: A"
                                 }
                             ]
                         },
                         {
-                            "name": "Level 2: B",
-                            "parent": "Top Level"
+                            "name": "Department 2: B",
+                            "parent": "Main Department"
                         }
                     ]
                 }
