@@ -6,7 +6,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <style>
-
             .links line {
                 stroke: #999;
                 stroke-opacity: 0.6;
@@ -27,11 +26,24 @@
     <body>
         <div class="container">
             <div class="row">
-                <svg width="600" height="600"></svg>
+                <div class="col-md-3" style="margin-top:20px;">
+                    <select class="form-control" id="changeView">
+                        <option value="index.html" selected="selected">View 1</option>
+                        <option value="tree.html">View 2</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <svg width="600" height="600"></svg>
+                </div>
             </div>
         </div>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script>
+
+            jQuery("#changeView").on("change", function () {
+                var selectedValue = $("#changeView option:selected").val();
+                window.location.href = window.location.href + "/" + selectedValue;
+            });
 
             var svg = d3.select("svg"),
                     width = +svg.attr("width"),
