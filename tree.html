@@ -123,6 +123,10 @@
 
                 nodeEnter.append("circle")
                         .attr("r", 10)
+						.on("click", function (d) {
+                            jQuery("#modalContent").find(".modal-body .title a").html(d.name);
+                            jQuery("#modalContent").modal("show");
+                        })
                         .style("fill", "#fff");
 
                 nodeEnter.append("text")
@@ -134,10 +138,7 @@
                         .text(function (d) {
                             return d.name;
                         })
-                        .on("click", function (d) {
-                            jQuery("#modalContent").find(".modal-body .title a").html(d.name);
-                            jQuery("#modalContent").modal("show");
-                        })
+                        
                         .style("fill-opacity", 1);
 
                 // Declare the links…
