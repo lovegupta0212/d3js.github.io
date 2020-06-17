@@ -134,6 +134,10 @@
                         .text(function (d) {
                             return d.name;
                         })
+                        .on("click", function (d) {
+                            jQuery("#modalContent").find(".modal-body .title a").html(d.name);
+                            jQuery("#modalContent").modal("show");
+                        })
                         .style("fill-opacity", 1);
 
                 // Declare the links…
@@ -150,6 +154,19 @@
             }
 
         </script>
-
+        <div class="modal" id="modalContent" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1 class="title"><a href="https://www.google.com/" target="_blank"></a></h1>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
