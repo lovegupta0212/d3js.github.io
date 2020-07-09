@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="image-map-resizer-master/js/imageMapResizer.min.js"></script>
+        <style>
+            img{max-width: 100%;}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="testing.jpg" usemap="#image-map" />
+                    <map name="image-map">
+                        <area target="" alt="Robust infrastructure" title="Robust infrastructure" href="javascript:;" onclick="checkmapping(this)" coords="1014,380,1036,421,958,542,910,525" shape="poly">
+                        <area target="" alt="AI &amp; Machine Learning" title="AI &amp; Machine Learning" href="javascript:;" onclick="checkmapping(this)" coords="1028,373,1050,414,1190,373,1188,317" shape="poly">
+                        <area target="" alt="Polylingual NLP" title="Polylingual NLP" href="javascript:;" onclick="checkmapping(this)" coords="1207,315,1205,363,1338,409,1364,373" shape="poly">
+                        <area target="" alt="Data Visualisation" title="Data Visualisation" href="javascript:;" onclick="checkmapping(this)" coords="1352,423,1389,380,1483,523,1442,537" shape="poly">
+                    </map>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function checkmapping(current) {
+                jQuery(".modal-title").html(jQuery(current).attr("title"));
+                jQuery("#myModal").modal("show");
+            }
+
+            $(document).ready(function () {
+                $('map').imageMapResize();
+            });
+        </script>        
+    </body>
+</html>
